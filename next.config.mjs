@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  basePath: "/space-savvy",
+  basePath: "/space-savvy/src/app",
   output: "export",
   reactStrictMode: false,
   images: {
