@@ -66,7 +66,7 @@ const Body = (props: BodyProps) => {
         </Typography>
         {currentData.map((item, index) => (
           <>
-            {index > 0 && <Divider className={styles.divider} />}
+            {index > 0 && <Divider className={styles.divider} sx={{ mx: 6 }} />}
             <Mission
               key={index}
               launch={item}
@@ -247,7 +247,7 @@ const Body = (props: BodyProps) => {
         </Grid>
       </Grid>
       <Box id="missions-list" className={styles.missionsList}>
-        <Divider className={styles.divider} />
+        <Divider />
         {getLinks()}
       </Box>
     </Stack>

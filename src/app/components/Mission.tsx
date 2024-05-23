@@ -21,7 +21,7 @@ const Mission = (props: MissionProps) => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const [patchImg, setPatchImg] = useState(
-    props.launch.links?.mission_patch ?? ""
+    props.launch.links?.mission_patch ?? "/space-photo.jpeg"
   );
   const handlePatchImgError = () => {
     setPatchImg("/space-photo.jpeg");
