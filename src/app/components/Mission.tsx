@@ -2,14 +2,14 @@ import {
   Box,
   Stack,
   Typography,
-  Chip,
   Button,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
 import Image from "next/image";
 import { Launches, Launchpads } from "../constants";
-import { useState } from "react";
+import { memo, useState } from "react";
+import styles from "../styles/Mission.module.css";
 
 export type MissionProps = {
   launch: Launches;
@@ -39,16 +39,10 @@ const Mission = (props: MissionProps) => {
   return (
     <Stack
       direction={isSmallScreen ? "column" : "row"}
+      className={styles.container}
       sx={{ width: "100%", p: 6 }}
     >
-      <Box
-        sx={{
-          flex: isSmallScreen ? "1 1 auto" : "0 1 auto",
-          display: "flex",
-          alignItems: "top",
-          justifyContent: "center",
-        }}
-      >
+      <Box className={styles.imageBox}>
         <Image
           src={patchImg}
           onError={handlePatchImgError}
@@ -57,42 +51,24 @@ const Mission = (props: MissionProps) => {
           height={128}
         />
       </Box>
-      <Stack
-        direction="column"
-        spacing={2}
-        sx={{
-          flex: isSmallScreen ? "1 1 auto" : "1 1 0%",
-          display: "flex",
-        }}
-      >
+      <Stack direction="column" spacing={2} className={styles.columnStack}>
         <Stack
           direction={isSmallScreen ? "column" : "row"}
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            py: "12px",
-          }}
+          className={styles.rowStack}
         >
           <Box
-            sx={{
-              flex: "1 1 0%",
-              pt: isSmallScreen ? "20px" : "0px",
-              px: "32px",
-            }}
+            className={`${styles.flexItem} ${
+              isSmallScreen ? styles.flexItemSmallScreen : ""
+            }`}
           >
             <Stack
               direction="column"
-              sx={{
-                display: "flex",
-                alignItems: isSmallScreen ? "center" : "flex-start",
-                justifyContent: "center",
-                width: "100%",
-              }}
+              className={isSmallScreen ? styles.alignCenter : styles.alignLeft}
             >
               <Stack direction={isSmallScreen ? "column" : "row"}>
                 <Typography
                   variant="h5"
-                  color={"black"}
+                  className={styles.typographyBlack}
                   align={isSmallScreen ? "center" : "left"}
                 >
                   {`${props.launch.rocket?.rocket_name} - ${props.launch.payloads?.[0]?.payload_id}`}
@@ -101,7 +77,7 @@ const Mission = (props: MissionProps) => {
                 {!isMissionSuccessful && (
                   <Typography
                     variant="h5"
-                    color={"red"}
+                    className={styles.typographyRed}
                     align={isSmallScreen ? "center" : "left"}
                   >
                     Failed Mission
@@ -111,27 +87,22 @@ const Mission = (props: MissionProps) => {
 
               <Typography
                 variant="subtitle1"
-                color={"gray"}
+                className={styles.typographyGray}
                 align={isSmallScreen ? "center" : "left"}
               >
                 {`Launched on ${formattedDate} at ${formattedTime} from ${props.launchpad.full_name}`}
               </Typography>
             </Stack>
           </Box>
-          <Box sx={{ flex: "0 1 auto", pt: isSmallScreen ? "20px" : "0px" }}>
-            <Stack
-              direction="column"
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: "100%",
-              }}
-            >
-              <Typography variant="h5" color={"black"}>
+          <Box
+            className={styles.flexItem}
+            sx={{ flex: "0 1 auto", pt: isSmallScreen ? "20px" : "0px" }}
+          >
+            <Stack direction="column" className={styles.alignCenter}>
+              <Typography variant="h5" className={styles.typographyBlack}>
                 {`#${props.launch.flight_number}`}
               </Typography>
-              <Typography variant="subtitle1" color={"gray"}>
+              <Typography variant="subtitle1" className={styles.typographyGray}>
                 Flight Number
               </Typography>
             </Stack>
@@ -139,14 +110,9 @@ const Mission = (props: MissionProps) => {
         </Stack>
         <Stack
           direction="row"
-          sx={{
-            flexWrap: "wrap",
-            justifyContent: isSmallScreen ? "center" : "flex-start",
-            gap: "12px",
-            width: "100%",
-            pt: "12px",
-            px: isSmallScreen ? "0px" : "32px",
-          }}
+          className={`${styles.buttonGroup} ${
+            isSmallScreen ? styles.buttonGroupCenter : ""
+          }`}
         >
           {links
             .filter(([key, value]) => key !== "mission_patch" && value)
@@ -156,6 +122,7 @@ const Mission = (props: MissionProps) => {
                 variant="outlined"
                 href={value}
                 target="_blank"
+                className={styles.buttonOutlined}
                 sx={{
                   color: "gray",
                   borderColor: "gray",
@@ -197,4 +164,4 @@ const getButtonTitle = (fromTitle: string) => {
   }
 };
 
-export default Mission;
+export default memo(Mission);

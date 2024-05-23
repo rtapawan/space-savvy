@@ -1,0 +1,92 @@
+.container {
+    width: 100%;
+    padding: 24px;
+}
+
+.imageBox {
+    flex: 0 1 auto;
+    display: flex;
+    align-items: top;
+    justify-content: center;
+}
+
+.columnStack {
+    flex: 1 1 0%;
+    display: flex;
+}
+
+.rowStack {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+}
+
+.flexItem {
+    flex: 1 1 0%;
+    padding-top: 0px;
+    padding-left: 32px;
+}
+
+.flexItemSmallScreen {
+    padding-top: 20px;
+}
+
+.alignCenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.alignLeft {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+}
+
+.typographyCenter {
+    text-align: center;
+}
+
+.typographyLeft {
+    text-align: left;
+}
+
+.typographyRed {
+    color: red;
+}
+
+.typographyGray {
+    color: gray;
+}
+
+.typographyBlack {
+    color: black;
+}
+
+.buttonGroup {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 12px;
+    width: 100%;
+    padding-top: 12px;
+    padding-left: 32px;
+}
+
+.buttonGroupCenter {
+    justify-content: center;
+    padding-left: 0px;
+}
+
+.buttonOutlined {
+    color: gray;
+    border-color: gray;
+    padding-left: 24px;
+}
+
+.buttonOutlined:hover {
+    color: white;
+    border-color: darkgray;
+    background-color: darkgray;
+}

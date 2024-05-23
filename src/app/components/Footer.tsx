@@ -1,20 +1,22 @@
+import { Stack, Typography } from "@mui/material";
+import styles from "../styles/Footer.module.css";
+
 const Footer = () => {
-  const handleScrollUp = () => {
+  const handleBackToTop = () => {
     document
       .getElementById("missions-list")
       ?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <div className="w-full flex flex-row mt-6">
-      <p className="flex-1 text-gray-300">Copyright &copy; 2018 Space Savvy</p>
-      <a
-        className="text-gray-600 underline cursor-pointer transform active:scale-90 transition-transform duration-200"
-        onClick={handleScrollUp}
-      >
+    <Stack direction="row" className={styles.container}>
+      <Typography className={styles.copyright}>
+        Copyright &copy; 2018 Space Savvy
+      </Typography>
+      <Typography className={styles.backToTop} onClick={handleBackToTop}>
         Back to top
-      </a>
-    </div>
+      </Typography>
+    </Stack>
   );
 };
 

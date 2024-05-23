@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { Typography, Box } from "@mui/material";
+import styles from "../styles/HeroSection.module.css";
 
 const Hero = () => {
   const handleScrollDown = () => {
@@ -8,21 +10,23 @@ const Hero = () => {
   };
 
   return (
-    <div className="h-[700px] w-full bg-cover bg-center flex flex-col justify-center items-center relative text-white p-12 bg-hero-pattern">
-      <div className="absolute inset-0 bg-black opacity-50" />
-      <p className="absolute top-12 left-12 text-lg">SPACE SAVVY</p>
-      <h1 className="text-[64px] drop-shadow-md mb-4 text-center">
+    <Box className={styles.heroSection}>
+      <Box className={styles.overlay} />
+      <Typography variant="h6" className={styles.title}>
+        SPACE SAVVY
+      </Typography>
+      <Typography variant="h2" className={styles.mainText}>
         Discover Space Missions
-      </h1>
+      </Typography>
       <Image
         src="/down-chevron.svg"
-        alt="Logo"
+        alt="Down Chevron"
         width={32}
         height={32}
-        className="absolute bottom-12 cursor-pointer transform active:scale-90 transition-transform duration-200"
+        className={styles.chevronImage}
         onClick={handleScrollDown}
       />
-    </div>
+    </Box>
   );
 };
 
