@@ -1,4 +1,4 @@
-import { Launches, Launchpads } from "../constants";
+import { Constants, Launches, Launchpads } from "../constants";
 import { useCallback, useEffect, useState } from "react";
 import {
   Box,
@@ -17,6 +17,7 @@ import {
 import Grid from "@mui/material/Unstable_Grid2";
 import Mission from "./Mission";
 import styles from "../styles/Body.module.css";
+import { filterMainList } from "../utils/listUtils";
 
 export type BodyProps = {
   launches: Launches[];
@@ -25,10 +26,18 @@ export type BodyProps = {
 
 const Body = (props: BodyProps) => {
   const [currentData, setCurrentData] = useState(props.launches);
-  const [currentKeywords, setCurrentKeywords] = useState("");
-  const [currentLaunchPad, setCurrentLaunchPad] = useState("Any");
-  const [currentMinYear, setCurrentMinYear] = useState(-1);
-  const [currentMaxYear, setCurrentMaxYear] = useState(9999);
+  const [currentKeywords, setCurrentKeywords] = useState(
+    Constants.DEFAULT_KEYWORDS
+  );
+  const [currentLaunchPad, setCurrentLaunchPad] = useState(
+    Constants.DEFAULT_LAUNCH_PAD
+  );
+  const [currentMinYear, setCurrentMinYear] = useState(
+    Constants.DEFAULT_MIN_YEAR
+  );
+  const [currentMaxYear, setCurrentMaxYear] = useState(
+    Constants.DEFAULT_MAX_YEAR
+  );
   const [isInvalidYearRange, setIsInvalidYearRange] = useState(false);
 
   const getYears = useCallback(() => {
@@ -133,7 +142,7 @@ const Body = (props: BodyProps) => {
                 setCurrentLaunchPad(event.target.value);
               }}
             >
-              <MenuItem value={"Any"}>Any</MenuItem>
+              <MenuItem value={Constants.DEFAULT_LAUNCH_PAD}>Any</MenuItem>
               {props.launchpads.map((item, index) => (
                 <MenuItem key={index} value={item.id ?? index}>
                   {item.full_name}
@@ -154,7 +163,7 @@ const Body = (props: BodyProps) => {
                 setCurrentMinYear(Number(event.target.value));
               }}
             >
-              <MenuItem value={-1}>Any</MenuItem>
+              <MenuItem value={Constants.DEFAULT_MIN_YEAR}>Any</MenuItem>
               {getYears().map((item, index) => (
                 <MenuItem key={index} value={item}>
                   {item}
@@ -175,7 +184,7 @@ const Body = (props: BodyProps) => {
                 setCurrentMaxYear(Number(event.target.value));
               }}
             >
-              <MenuItem value={9999}>Any</MenuItem>
+              <MenuItem value={Constants.DEFAULT_MAX_YEAR}>Any</MenuItem>
               {getYears().map((item, index) => (
                 <MenuItem key={index} value={item}>
                   {item}
@@ -194,48 +203,15 @@ const Body = (props: BodyProps) => {
                 return;
               }
 
-              let filteredList = props.launches;
-              if (currentKeywords.length > 0) {
-                filteredList = filteredList.filter((item) => {
-                  const payloadIds =
-                    props.launches
-                      .find(
-                        (inner) => inner.flight_number === item.flight_number
-                      )
-                      ?.payloads?.map((launch) => launch.payload_id ?? "") ??
-                    [];
-                  const isMatchingPayloadIds = payloadIds.find((inner) =>
-                    inner.toLowerCase().includes(currentKeywords.toLowerCase())
-                  );
-                  return (
-                    item.flight_number?.toString() === currentKeywords ||
-                    item.rocket?.rocket_name
-                      ?.toLowerCase()
-                      .includes(currentKeywords.toLowerCase()) ||
-                    isMatchingPayloadIds
-                  );
-                });
-              }
-              if (currentLaunchPad !== "Any") {
-                filteredList = filteredList.filter(
-                  (item) => item.launch_site?.site_id === currentLaunchPad
-                );
-              }
-              filteredList = filteredList.filter((item) => {
-                const date = new Date(
-                  item.launch_date_local ?? ""
-                ).getFullYear();
-                if (currentMinYear !== -1 && currentMaxYear !== 9999) {
-                  return date >= currentMinYear && date <= currentMaxYear;
-                } else if (currentMinYear !== -1) {
-                  return date >= currentMinYear;
-                } else if (currentMaxYear !== 9999) {
-                  return date <= currentMaxYear;
-                }
-                return true;
-              });
-
-              setCurrentData(filteredList);
+              setCurrentData(
+                filterMainList(
+                  currentKeywords,
+                  currentLaunchPad,
+                  currentMinYear,
+                  currentMaxYear,
+                  props.launches
+                )
+              );
             }}
             className={styles.button}
             sx={{

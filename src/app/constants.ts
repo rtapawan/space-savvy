@@ -75,3 +75,10 @@ export interface APIResponse {
   launches?: Launches[];
   launchpads?: Launchpads[];
 }
+
+export const Constants = {
+  DEFAULT_KEYWORDS: "",
+  DEFAULT_LAUNCH_PAD: "Any",
+  DEFAULT_MIN_YEAR: -1,
+  DEFAULT_MAX_YEAR: 9999,
+};
