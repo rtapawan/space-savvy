@@ -5,28 +5,31 @@ import Body from "./components/Body";
 import Footer from "./components/Footer";
 import Hero from "./components/Hero";
 import { APIResponse } from "./constants";
+import styles from "./styles/Page.module.css";
 
 export default function Page() {
   const [data, setData] = useState<APIResponse>();
 
   useEffect(() => {
-    fetch("/api/home")
-      .then((res) => res.json())
-      .then((data) => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/home");
+        const result = await response.json();
         setData({
-          launches: JSON.parse(data.launches),
-          launchpads: JSON.parse(data.launchpads),
+          launches: JSON.parse(result.launches),
+          launchpads: JSON.parse(result.launchpads),
         });
-      });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
   }, []);
 
   return (
-    <main className="flex min-h-screen flex-col items-center">
+    <main className={styles.main}>
       <Hero />
-      <div
-        id="body-start"
-        className="w-full min-h-[500px] flex flex-col items-center bg-gray-200 pt-12 pl-12 pr-12 pb-6"
-      >
+      <div id="body-start" className={styles.bodyContainer}>
         <Body
           launches={data?.launches ?? []}
           launchpads={data?.launchpads ?? []}
